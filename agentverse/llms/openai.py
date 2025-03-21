@@ -56,11 +56,12 @@ else:
         base_url = OPENAI_BASE_URL
     elif AZURE_API_KEY:
         DEFAULT_CLIENT = AzureOpenAI(
-            api_key=AZURE_API_KEY,
-            azure_endpoint=AZURE_API_BASE,
-            api_version="2024-02-15-preview",
-        )
+            api_key="f317dfd5256942ad873d3e13a1eb1dc7",
+            api_version="2024-08-01-preview",
+            azure_endpoint="https://exbq.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview")
+
         DEFAULT_CLIENT_ASYNC = AsyncAzureOpenAI(
+            api_version="gpt-4o-mini",
             api_key=AZURE_API_KEY,
             azure_endpoint=AZURE_API_BASE,
         )
@@ -79,7 +80,7 @@ else:
             }
             logger.info(f"Using vLLM model: {hf_model_name}")
     if hf_model_name := get_llm_server_modelname(
-        "http://localhost:5000", logger=logger
+            "http://localhost:5000", logger=logger
     ):
         # meta-llama/Llama-2-7b-chat-hf
         # transform to llama-2-7b-chat-hf
@@ -198,8 +199,16 @@ class OpenAIChat(BaseChatModel):
             "gpt-4-0613": 32768,
             "gpt-4-1106-preview": 131072,
             "gpt-4-0125-preview": 131072,
+            "gpt-4o-mini": 131072,
             "llama-2-7b-chat-hf": 4096,
         }
+
+        logger.warn("***************")
+        logger.warn(model)
+        logger.warn("***************")
+
+
+
         # Default to 4096 tokens if model is not in the dictionary
         return send_token_limit_dict[model] if model in send_token_limit_dict else 4096
 
@@ -212,20 +221,19 @@ class OpenAIChat(BaseChatModel):
     #     ),
     # )
     def generate_response(
-        self,
-        prepend_prompt: str = "",
-        history: List[dict] = [],
-        append_prompt: str = "",
-        functions: List[dict] = [],
+            self,
+            prepend_prompt: str = "",
+            history: List[dict] = [],
+            append_prompt: str = "",
+            functions: List[dict] = [],
     ) -> LLMResult:
         messages = self.construct_messages(prepend_prompt, history, append_prompt)
         logger.log_prompt(messages)
         if self.is_azure:
             openai_client = AzureOpenAI(
-                api_key=self.client_args["api_key"],
-                azure_endpoint=self.client_args["base_url"],
-                api_version="2024-02-15-preview",
-            )
+                api_key="f317dfd5256942ad873d3e13a1eb1dc7",
+                api_version="2024-08-01-preview",
+                azure_endpoint="https://exbq.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview")
         else:
             openai_client = OpenAI(
                 api_key=self.client_args["api_key"],
@@ -248,6 +256,10 @@ class OpenAIChat(BaseChatModel):
                         }
                     ]
                 )
+                logger.warn("***********************")
+                logger.warn(response)
+                logger.warn("***********************")
+
                 if response.choices[0].message.function_call is not None:
                     self.collect_metrics(response)
 
@@ -308,21 +320,20 @@ class OpenAIChat(BaseChatModel):
     #     ),
     # )
     async def agenerate_response(
-        self,
-        prepend_prompt: str = "",
-        history: List[dict] = [],
-        append_prompt: str = "",
-        functions: List[dict] = [],
+            self,
+            prepend_prompt: str = "",
+            history: List[dict] = [],
+            append_prompt: str = "",
+            functions: List[dict] = [],
     ) -> LLMResult:
         messages = self.construct_messages(prepend_prompt, history, append_prompt)
         logger.log_prompt(messages)
 
         if self.is_azure:
             async_openai_client = AsyncAzureOpenAI(
-                api_key=self.client_args["api_key"],
-                azure_endpoint=self.client_args["base_url"],
-                api_version="2024-02-15-preview",
-            )
+                api_key="f317dfd5256942ad873d3e13a1eb1dc7",
+                api_version="2024-08-01-preview",
+                azure_endpoint="https://exbq.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview")
         else:
             async_openai_client = AsyncOpenAI(
                 api_key=self.client_args["api_key"],
@@ -434,7 +445,7 @@ class OpenAIChat(BaseChatModel):
             raise
 
     def construct_messages(
-        self, prepend_prompt: str, history: List[dict], append_prompt: str
+            self, prepend_prompt: str, history: List[dict], append_prompt: str
     ):
         messages = []
         if prepend_prompt != "":
@@ -485,8 +496,8 @@ class OpenAIChat(BaseChatModel):
             raise ValueError(f"Model type {model} not supported")
 
         return (
-            self.total_prompt_tokens * input_cost_map[model] / 1000.0
-            + self.total_completion_tokens * output_cost_map[model] / 1000.0
+                self.total_prompt_tokens * input_cost_map[model] / 1000.0
+                + self.total_completion_tokens * output_cost_map[model] / 1000.0
         )
 
 

@@ -50,17 +50,23 @@ class ConversationAgent(BaseAgent):
     async def astep(self, env_description: str = "") -> Message:
         """Asynchronous version of step"""
         prompt = self._fill_prompt_template(env_description)
+        print("*************************************Start*************************************")
+        print(f"Complete prompt: \n{prompt}\n")
+        print("*************************************end*************************************")
 
         parsed_response = None
         for i in range(self.max_retry):
             try:
                 # if self.name == "Code Reviewer":
-                logger.debug(prompt, "Prompt", Fore.CYAN)
+                # logger.debug(prompt, "Prompt", Fore.CYAN)
                 response = await self.llm.agenerate_response(prompt)
 
-                # logging.info(f"{self.name}'s request result:"
-                #              f" {response.content}")
                 parsed_response = self.output_parser.parse(response)
+
+                print("*************************************Start*************************************")
+                print(f"Complete parsed response: \n{parsed_response}\n")
+                print("*************************************end*************************************")
+
                 break
             except (KeyboardInterrupt, bdb.BdbQuit):
                 raise

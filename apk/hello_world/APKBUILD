@@ -1,0 +1,17 @@
+cat > APKBUILD <<EOF
+# Maintainer: Xuechuan Mi <xuechuan.mimi@gmail.com>
+pkgname=hello_world
+pkgver=1.0
+pkgrel=1
+pkgdesc="A simple Hello World script"
+url="https://example.com"
+arch="noarch"
+license="MIT"
+source=""
+options="!check"
+
+package() {
+    mkdir -p "\$pkgdir/usr/bin"
+    cp "\$srcdir/usr/bin/hello_world.sh" "\$pkgdir/usr/bin/"
+}
+EOF

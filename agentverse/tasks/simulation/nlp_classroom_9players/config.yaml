@@ -98,7 +98,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 250
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
     memory: 
@@ -114,7 +114,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 100
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
   -
@@ -128,7 +128,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 100
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
   -
@@ -142,7 +142,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 100
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
   -
@@ -156,7 +156,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 100
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
   -
@@ -170,7 +170,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 100
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
   -
@@ -184,7 +184,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 100
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
   -
@@ -198,7 +198,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 100
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
   -
@@ -212,7 +212,7 @@ agents:
       llm_type: gpt-4
       model: "gpt-4"
       temperature: 0.7
-      max_tokens: 100
+      max_tokens: 3000
     output_parser:
       type: nlp_classroom_9players
 
